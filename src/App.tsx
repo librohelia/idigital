@@ -19,6 +19,65 @@ import {
 
 // --- Components ---
 
+const Logo = ({ className = "", light = false }: { className?: string; light?: boolean }) => {
+  return (
+    <div className={`flex flex-col items-center gap-1 ${className}`}>
+      <div className="relative w-24 h-24 flex items-center justify-center">
+        {/* Perfectionist Logo Recreation */}
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          {/* Main Blue Outer Circle */}
+          <circle cx="50" cy="50" r="47" fill="none" stroke="#00A3FF" strokeWidth="2" />
+          
+          {/* Authentic Spiral Pattern with 3 Arms */}
+          {[...Array(60)].map((_, i) => {
+            const angle = (i * 14) * (Math.PI / 180);
+            const radius = 18 + (i * 0.45);
+            // Increasing size for more organic look
+            const size = 0.5 + (i * 0.08);
+            return (
+              <circle 
+                key={i}
+                cx={50 + Math.cos(angle) * radius} 
+                cy={50 + Math.sin(angle) * radius} 
+                r={size > 3.5 ? 3.5 : size} 
+                fill="#00A3FF" 
+              />
+            );
+          })}
+
+          {/* Center ID - Accurate Font Weight */}
+          <text 
+            x="50" 
+            y="54" 
+            textAnchor="middle" 
+            dominantBaseline="middle" 
+            fill="#00A3FF" 
+            fontSize="32" 
+            fontWeight="500"
+            fontFamily="Outfit, sans-serif"
+            style={{ letterSpacing: '-0.02em' }}
+          >
+            ID
+          </text>
+        </svg>
+      </div>
+      <div className="flex flex-col items-center -space-y-1.5 mt-2">
+        <span className={`font-bold text-3xl tracking-[0.2em] leading-none ${light ? 'text-white' : 'text-slate-900'}`}>
+          IMPULSO
+        </span>
+        <div className="flex items-center gap-2 py-1 w-full justify-center">
+          <div className="h-[1.5px] flex-1 bg-[#00A3FF] opacity-80" />
+          <span className="text-[#00A3FF] font-bold text-[11px] tracking-[0.35em] whitespace-nowrap">DIGITAL</span>
+          <div className="h-[1.5px] flex-1 bg-[#00A3FF] opacity-80" />
+        </div>
+        <span className="text-[7.5px] uppercase tracking-[0.25em] font-bold text-[#00A3FF] pt-0.5">
+          ESCALANDO TU EMPRESA
+        </span>
+      </div>
+    </div>
+  );
+};
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -43,14 +102,7 @@ const Navbar = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-[#0080FF] rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-xl">ID</span>
-          </div>
-          <span className={`font-bold text-2xl tracking-tighter ${isScrolled ? 'text-slate-900' : 'text-white'}`}>
-            IMPULSO<span className="text-[#0080FF]">DIGITAL</span>
-          </span>
-        </div>
+        <Logo light={!isScrolled} className="scale-75 origin-left" />
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
@@ -128,13 +180,16 @@ const Hero = () => {
             <Zap size={14} className="fill-current" />
             Escalando tu empresa
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.1] mb-6 tracking-tight">
-            Transformación Digital <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0080FF] to-blue-400 font-extrabold">para Pymes</span>
+          <h1 className="text-4xl md:text-6xl font-bold text-white leading-[1.2] mb-8 tracking-tight uppercase mt-4">
+            Soluciones digitales que <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0080FF] to-blue-400 font-extrabold pb-2 inline-block">
+              ayudan a pequeñas y medianas empresas
+            </span>
           </h1>
-          <p className="text-lg text-slate-400 mb-8 max-w-lg leading-relaxed">
+          <p className="text-lg text-slate-400 mb-10 max-w-lg leading-relaxed">
             Impulsamos tu negocio al mundo digital con estrategias modernas, 
-            cercanas y efectivas. Ayudamos a las pequeñas y medianas empresas 
-            a crecer con confianza.
+            cercanas y efectivas. Nos especializamos en acompañar el crecimiento 
+            de las pymes con total confianza.
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <a 
@@ -178,31 +233,13 @@ const Hero = () => {
           transition={{ duration: 1, delay: 0.2 }}
           className="relative hidden md:block"
         >
-          <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-slate-900 shadow-2xl">
-            <img 
-              src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=2070&auto=format&fit=crop" 
-              alt="Digital Growth"
-              className="w-full h-full object-cover opacity-60"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent" />
+          <div className="relative aspect-square rounded-[60px] overflow-hidden border border-white/10 bg-slate-900/50 shadow-2xl flex items-center justify-center p-20 backdrop-blur-sm">
+            {/* Main Visual: Prominent Branding */}
+            <div className="w-full flex justify-center scale-150">
+              <Logo light />
+            </div>
             
-            {/* Stats Overlay */}
-            <motion.div 
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-10 right-10 p-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl"
-            >
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-green-500/20 rounded-lg">
-                  <BarChart3 className="text-green-400" size={20} />
-                </div>
-                <div>
-                  <div className="text-slate-400 text-[10px] uppercase font-bold">Crecimiento</div>
-                  <div className="text-white font-bold">+184%</div>
-                </div>
-              </div>
-            </motion.div>
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent" />
           </div>
           
           {/* Floating Circle Visual */}
@@ -463,14 +500,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 bg-[#0080FF] rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">ID</span>
-              </div>
-              <span className="font-bold text-xl tracking-tighter">
-                IMPULSO<span className="text-[#0080FF]">DIGITAL</span>
-              </span>
-            </div>
+            <Logo light className="mb-6" />
             <p className="text-slate-500 max-w-sm leading-relaxed mb-8">
               Expertos en transformación digital para pequeñas y medianas empresas. 
               Impulsamos tu crecimiento real con soluciones tecnológicas a medida.
